@@ -30,6 +30,7 @@ class VideoRecorderApp:
             "Tell me about a situation when you had a conflict with a teammate."
         ]
         self.selected_questions = self.questions[0:num_q]
+        # as of rn no random questions so that calling the questions in other files where needed wont be an issue
         # self.selected_questions = [self.questions[random.randint(0, len(self.questions) - 1)] for _ in range(num_q)]
         self.current_question = 0
         print(self.selected_questions[self.current_question])
@@ -82,13 +83,13 @@ class VideoRecorderApp:
     def next_question(self):
         """Displays the next question in the randomly selected list."""
         if self.recording:
-            self.new_recording() #to stop the current rec
+            self.new_recording() # to stop the current rec
         self.warning_label.configure(fg_color = "#050c30", text="") 
         self.current_question+=1    
         if self.current_question < len(self.selected_questions): 
-            self.new_recording()
+            self.new_recording() # to start a new recording
             print(self.selected_questions[self.current_question])
-        elif self.go_button.cget("text") == "Submit Test": # added elif condition so that if the button is clicked more than once it doesnt throw error, need to implement functionality
+        elif self.go_button.cget("text") == "Submit Test": 
             self.root.after_cancel(self.uf_id)
             self.video_label.configure(image=None, text="Video feed")
             self.video_label.image = None
@@ -115,7 +116,8 @@ class VideoRecorderApp:
             self.video_thread.start()
             self.audio_thread.start()
 
-            self.timer = threading.Timer(5, self.countdown)  # Stop after 10 seconds
+            self.timer_val = 5 # modify this to make the countdown appear at a different timing
+            self.timer = threading.Timer(self.timer_val, self.countdown)  
             self.timer.start()
 
             self.start_button.configure(state="disabled")
@@ -230,7 +232,7 @@ class VideoRecorderApp:
             self.cap.release()
             if self.out:
                 self.out.release()
-        for folder in ["video", "audio"]:
+        for folder in ["2_video", "1_audio"]:
             for file in os.listdir(folder):
                 os.remove(os.path.join(folder, file))
         self.root.destroy()
