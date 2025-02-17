@@ -34,7 +34,7 @@ def report_generate(score, transcript):
 def main():
     start_time = time.time()  # Record start time
     #ADD CODE TO RUN NEW.PY TEST, READ AUDIO FILE, GET TRANSCRIPT, AND STORE AS TEXT
-    audio_path = r"..\1_audio\aud_1.wav"
+    audio_path = r"1_audio\aud_1.wav"
     a = AudioTranscriber()
     transcript=a.transcribe(audio_path)
     score=response_confidence(transcript)

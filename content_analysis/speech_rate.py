@@ -46,7 +46,7 @@ def report_generation(transcript,speech_duration,speech_rate,speech_score):
     return result
 
 def main():
-    audio_path = r"..\1_audio\aud_1.wav"
+    audio_path = r"1_audio\aud_1.wav"
     a = AudioTranscriber()
     transcript=a.transcribe(audio_path)
     speech_duration = get_speech_duration(audio_path)

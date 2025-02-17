@@ -10,7 +10,7 @@ asyncio.set_event_loop_policy(WindowsSelectorEventLoopPolicy())
 
 
 def filler_jargon(transcript):
-    prompt = "'{ans}'\n the above is a transcript of a response from a mock interview. You are an expert on interviews. Analyze the above transcript critically and strictly, and return a list of filler words and number of jargon words separately. Return only the 2 lists in the format of ['word1', 'word2',...], 1 list in 1 line, with no empty lines between them, and with no text before or after the lists."
+    prompt = "'{ans}'\n the above is a transcript of a response from a mock interview. You are an expert on interviews. Analyze the above transcript critically and strictly, and return a list of filler words (for example, words such as um, uh, hm, okay, like, you know, so, kind of, etc) and a list of jargon words separately. Ensure that you return ONLY the 2 lists in the format of ['word1', 'word2',...], 1 list in 1 line, with no empty lines between them, and with no text before or after the lists."
     client = Client()
     response = client.chat.completions.create(
         model="gpt-4o",
@@ -18,6 +18,7 @@ def filler_jargon(transcript):
     )
     # Capture the response text and split into keywords
     result = response.choices[0].message.content
+    print(result)
     # Split the string into two lines
     lines = result.split("\n")
     # Convert each line from string representation to an actual list
@@ -56,8 +57,8 @@ def report_generate(score, transcript, filler_words, jargon_words):
 
 def main():
     # transcript="H-hi, I'm Anirudh, nice to uh meet you. I hope we'll like, work well together. Given my um, experience in full-stack development, I'm kind of proficient in leveraging you know, asynchronous microservices architecture, optimizing RESTful API endpoints, and hmm, implementing scalable CI/CD pipelines for automated deployments."
-    transcript2="Hi, I'm Anirudh, nice to meet you. I look forward to working together. I have experience in full-stack development and specialize in building efficient, reliable web applications. I focus on improving system performance, designing well-structured APIs, and automating deployment processes to ensure smooth operations."
-    audio_path = r"..\1_audio\aud_1.wav"
+    #transcript2="Hi, I'm Anirudh, nice to meet you. I look forward to working together. I have experience in full-stack development and specialize in building efficient, reliable web applications. I focus on improving system performance, designing well-structured APIs, and automating deployment processes to ensure smooth operations."
+    audio_path = r"1_audio\aud_1.wav"
     a = AudioTranscriber()
     transcript=a.transcribe(audio_path)
     filler_words,jargon_words=filler_jargon(transcript)

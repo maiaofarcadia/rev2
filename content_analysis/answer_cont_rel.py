@@ -6,7 +6,7 @@ from transcription import AudioTranscriber
 # Fix Windows event loop issue (UNCOMMENT THIS LINE WHEN RUNNING LOCALLY)
 asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
-with open(r"..\questions.txt", "r", encoding="utf-8") as file:
+with open(r"questions.txt", "r", encoding="utf-8") as file:
     questions = [line.strip() for line in file if line.strip()]
 
 def answer_relevance(transcript,question):
@@ -38,7 +38,7 @@ def main():
     start_time = time.time()  # Record start time
     # ADD CODE TO RUN NEW.PY TEST (NOT FOR THIS REVIEW), STORE QUESTION (DONE), READ AUDIO FILE (DONE), GET TRANSCRIPT(DONE), AND STORE AS TEXT (DONE)
     question=questions[0]
-    audio_path = r"..\1_audio\aud_1.wav"
+    audio_path = r"1_audio\aud_1.wav"
     a = AudioTranscriber()
     transcript=a.transcribe(audio_path)
     score=answer_relevance(transcript,question)
