@@ -2,6 +2,9 @@ import cv2
 from gaze_tracking import GazeTracking
 import numpy as np
 from g4f.client import Client
+import asyncio
+
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 class GazeFocusDetector:
     def __init__(self, video_path):
@@ -64,6 +67,6 @@ if __name__=="__main__":
     distraction_labels = detector.process_video()
     distraction_score = detector.compute_focus_score(30,15,0.35)
     report = detector.report_generate(distraction_score)
-    print(f"REPORT\n {report}")
-    print(f"Final score: {distraction_score}%")
-    print(distraction_labels) 
+    print(f"Final score: {distraction_score}%\n\n")
+    print(f"REPORT\n {report}")    
+    # print(distraction_labels) 

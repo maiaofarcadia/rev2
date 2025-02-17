@@ -64,7 +64,7 @@ def main():
     print("filler words: ",filler_words,"\n jargon words: ",jargon_words)
     #print(len(transcript.split()),len(filler_words),len(jargon_words))
     score=calc_filler_jargon_score(transcript,len(filler_words),len(jargon_words))
-    print("filler/jargon analysis score: ", score, "%")
+    print(f"filler/jargon analysis score: {score:.2f}%")
     report=report_generate(score, transcript,filler_words,jargon_words)
     print("\n\nREPORT:\n\n", report)
 

@@ -2,6 +2,9 @@ import cv2
 import dlib 
 import numpy as np
 from g4f.client import Client
+import asyncio
+
+asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 class KalmanFilter:
     def __init__(self, process_noise=1e-5, measurement_noise=1e-1):
@@ -116,6 +119,7 @@ if __name__=="__main__":
     stress_array = detector.process_video(video_path)
     stress_score = detector.compute_relax_score(30,15,0.35)
     report = detector.report_generate(stress_score)
+    print(f"Final Stress Score: {stress_score}%\n\n")
     print(f"REPORT\n {report}")
-    print(f"Final Stress Score: {stress_score}%")
+    
     # print(stress_array)
