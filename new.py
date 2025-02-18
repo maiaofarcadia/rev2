@@ -33,7 +33,7 @@ class VideoRecorderApp:
         # as of rn no random questions so that calling the questions in other files where needed wont be an issue
         # self.selected_questions = [self.questions[random.randint(0, len(self.questions) - 1)] for _ in range(num_q)]
         self.current_question = 0
-        print(self.selected_questions[self.current_question])
+        # print(self.selected_questions[self.current_question])
 
         self.root.protocol("WM_DELETE_WINDOW", self.quit_app)
 
@@ -68,6 +68,10 @@ class VideoRecorderApp:
         self.uf_id = None
         
         self.update_video()
+    
+    def question_reader(self, file_path):
+        with open(file_path,"r",encoding="utf-8") as file:
+            self.selected_questions = [line.strip() for line in file if line.strip()]
 
     def update_video(self):
         """Continuously update the video feed."""
@@ -88,21 +92,24 @@ class VideoRecorderApp:
         self.current_question+=1    
         if self.current_question < len(self.selected_questions): 
             self.new_recording() # to start a new recording
-            print(self.selected_questions[self.current_question])
+            # print(self.selected_questions[self.current_question])
         elif self.go_button.cget("text") == "Submit Test": 
             self.root.after_cancel(self.uf_id)
             self.video_label.configure(image=None, text="Video feed")
             self.video_label.image = None
-            self.stop_recording()
-            print("Submitting the test...")  
+            print("Submitting the test...") # does nothing as of rn, just closes the tab
+            self.quit_app()
             return
         else:
+            self.stop_recording()
+            self.cap.release()
             self.go_button.configure(text="Submit Test") 
             self.go_button.configure(state="normal")
             self.start_button.configure(state="disabled")
 
     def start_recording(self):
         """Start recording video and audio."""
+        print(self.selected_questions[self.current_question])
         if not self.recording:
             self.video_filename = self.get_new_filename("2_video", "vid", "avi")
             self.audio_filename = self.get_new_filename("1_audio", "aud", "wav")
@@ -217,9 +224,9 @@ class VideoRecorderApp:
             self.timer.cancel()
             self.video_thread.join()
             self.audio_thread.join()
-            self.cap.release()
             if self.out:
                 self.out.release()
+            self.cap.release()
         self.root.destroy()
     
     def end_test(self):
